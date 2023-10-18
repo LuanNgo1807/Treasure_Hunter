@@ -1,3 +1,4 @@
+﻿using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float movementSpeedBack = 2.0f;
     public float jumpForce = 4.0f;
     private bool isRunning = false;
-    private Animator animator;
+    public Animator animator;
 
     //check is grounded
     public bool isGrounded = false;
@@ -21,27 +22,37 @@ public class PlayerController : MonoBehaviour
     //falling and grounded
     private bool isFalled = false;
     //attack
-    private bool isAttacking = false;
-    private bool attackDelay = true;
-    //jump
+    [Header("Attack")]
+    private bool canAttack = true;
+    public int attackCount = 0;
+    IEnumerator timeBetweenAttacks;
+    //double jump
+    [Header("Double Jump")]
+    public int jumpCount = 0; //số lần nhảy đã thực hiện
+    public int maxJumpCount = 2;//số lần nhảy tối đa cho phép 
+
     // Start is called before the first frame update
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        canAttack = true;
+        timeBetweenAttacks = ResetCanAttack();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Jump();
     }
     private void FixedUpdate()
     {
         Move();
-        Jump();
         Fall();
-        Attack();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
     }
     private void Move()
     {
@@ -72,20 +83,29 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         GroundCheck();
-        if(isGrounded)
+
+        if (isGrounded)
         {
+            jumpCount = 0; // Reset jumpCount khi đứng trên mặt đất
             isJumping = false;
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
-            } 
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && (isGrounded || jumpCount < maxJumpCount))
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
+            jumpCount++;
+
+            // Đánh dấu nhân vật đang trong trạng thái nhảy
+            isJumping = true;
         }
         else
         {
-            isJumping = true;
+            isJumping = false;
         }
+
         animator.SetBool("isJumping", isJumping);
     }
+
     private void Fall()
     {
         if(rigid.velocity.y < 0)
@@ -98,24 +118,39 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetBool("isFalled", isFalled);
     }
-    private void Attack()
+    void Attack()
     {
-        if (attackDelay)
+        if (canAttack)
         {
-            if (Input.GetMouseButtonDown(1))
+            StopCoroutine(timeBetweenAttacks);
+            attackCount++;
+            canAttack = false;
+            Invoke("DelayCanAttack", 0.5f);
+            if(attackCount == 1)
             {
-                isAttacking = false;
-                animator.SetTrigger("attack(trigger)");
-                Invoke(nameof(SetAttackDelay), 1.0f);
-                attackDelay = false;
+                animator.SetTrigger("attack1");
+            }
+            if(attackCount == 2)
+            {
+                animator.SetTrigger("attack2");
+            }
+            if(attackCount == 3)
+            {
+                animator.SetTrigger("attack3");
             }
         }
-        
-        /*else
-        {
-            isAttacking = false;
-        }*/
-        
+    }
+    IEnumerator ResetCanAttack()
+    {
+        yield return new WaitForSeconds(0.5f);
+        attackCount = 0;
+    }
+    void DelayCanAttack()
+    {
+        timeBetweenAttacks = ResetCanAttack();
+        StartCoroutine(timeBetweenAttacks);
+        canAttack = true;
+        animator.SetTrigger("returnIdle");
     }
     void GroundCheck()
     {
@@ -125,9 +160,5 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
-    }
-    public void SetAttackDelay()
-    {
-        attackDelay = true;
     }
 }
