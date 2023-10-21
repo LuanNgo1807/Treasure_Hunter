@@ -22,10 +22,10 @@ public class PlayerController : MonoBehaviour
     //falling and grounded
     private bool isFalled = false;
     //attack
-    [Header("Attack")]
     private bool canAttack = true;
     public int attackCount = 0;
     IEnumerator timeBetweenAttacks;
+    bool isAttacking = false;
     //double jump
     [Header("Double Jump")]
     public int jumpCount = 0; //số lần nhảy đã thực hiện
@@ -43,15 +43,23 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Jump();
+        
     }
     private void FixedUpdate()
     {
         Move();
         Fall();
+        Jump();
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
+            isAttacking = true;
+            Debug.Log("yes");
+        }
+        else
+        {
+            isAttacking = false;
+            Debug.Log("no");
         }
     }
     private void Move()
@@ -92,8 +100,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow) && (isGrounded || jumpCount < maxJumpCount))
         {
-            rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
             jumpCount++;
+            rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
 
             // Đánh dấu nhân vật đang trong trạng thái nhảy
             isJumping = true;
@@ -137,6 +145,7 @@ public class PlayerController : MonoBehaviour
             if(attackCount == 3)
             {
                 animator.SetTrigger("attack3");
+                attackCount = 0;
             }
         }
     }
@@ -159,6 +168,20 @@ public class PlayerController : MonoBehaviour
         if(colliders.Length > 0)//grounded
         {
             isGrounded = true;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "enemies")
+        {
+            if (isAttacking)
+            {
+                Destroy(GameObject.Find("monster_crabby"));
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
