@@ -190,11 +190,17 @@ public class PlayerController : MonoBehaviour
             {
                 enemiesHealth.TakeDamage(1);
             }
-            else
+            /*else
             {
                 health.TakeDamage(3);
                 animator.SetTrigger("hit");
-            }
+            }*/
+        }
+        if (collision.gameObject.tag == "monster_hitbox")
+        {
+            Debug.Log("take damage");
+            health.TakeDamage(3);
+            animator.SetTrigger("hit");
         }
     }
 }
