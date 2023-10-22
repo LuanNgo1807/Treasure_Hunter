@@ -26,11 +26,13 @@ public class PlayerController : MonoBehaviour
     public int attackCount = 0;
     IEnumerator timeBetweenAttacks;
     bool isAttacking = false;
+    private GameObject AttackArea;
     //double jump
     [Header("Double Jump")]
     public int jumpCount = 0; //số lần nhảy đã thực hiện
     public int maxJumpCount = 2;//số lần nhảy tối đa cho phép 
-
+    //health
+    private Health health;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         canAttack = true;
         timeBetweenAttacks = ResetCanAttack();
+
+        AttackArea = transform.Find("AttackArea").gameObject;
+        health = GetComponent<Health>();
+        attackCount = 0;
     }
 
     // Update is called once per frame
@@ -54,11 +60,13 @@ public class PlayerController : MonoBehaviour
         {
             Attack();
             isAttacking = true;
+            /*AttackArea.SetActive(true);*/
             Debug.Log("yes");
         }
         else
         {
             isAttacking = false;
+            AttackArea.SetActive(false);
             Debug.Log("no");
         }
     }
@@ -137,14 +145,17 @@ public class PlayerController : MonoBehaviour
             if(attackCount == 1)
             {
                 animator.SetTrigger("attack1");
+                AttackArea.SetActive(true);
             }
             if(attackCount == 2)
             {
                 animator.SetTrigger("attack2");
+                AttackArea.SetActive(true);
             }
             if(attackCount == 3)
             {
                 animator.SetTrigger("attack3");
+                AttackArea.SetActive(true);
                 attackCount = 0;
             }
         }
@@ -172,15 +183,17 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Health enemiesHealth = collision.gameObject.GetComponent<Health>();
         if(collision.gameObject.tag == "enemies")
         {
             if (isAttacking)
             {
-                Destroy(GameObject.Find("monster_crabby"));
+                enemiesHealth.TakeDamage(1);
             }
             else
             {
-                Destroy(gameObject);
+                health.TakeDamage(3);
+                animator.SetTrigger("hit");
             }
         }
     }
