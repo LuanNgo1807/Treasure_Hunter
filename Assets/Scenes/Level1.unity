@@ -491,13 +491,14 @@ GameObject:
   m_Component:
   - component: {fileID: 756150303}
   - component: {fileID: 756150304}
+  - component: {fileID: 756150305}
   m_Layer: 6
   m_Name: AttackArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &756150303
 Transform:
   m_ObjectHideFlags: 0
@@ -542,7 +543,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -563,6 +564,18 @@ PolygonCollider2D:
       - {x: 0.5097698, y: -0.14588416}
       - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
+--- !u!114 &756150305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756150302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9924fd3016a768e418ca6cf75b93a2a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &861854187
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +601,7 @@ Transform:
   m_GameObject: {fileID: 861854187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.123, z: 0}
+  m_LocalPosition: {x: 0, y: -0.06, z: 0}
   m_LocalScale: {x: 0.4335581, y: 0.726, z: 0.726}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74218,9 +74231,10 @@ GameObject:
   - component: {fileID: 1608375595}
   - component: {fileID: 1608375596}
   - component: {fileID: 1608375597}
+  - component: {fileID: 1608375598}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74338,9 +74352,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &1608375595
 MonoBehaviour:
@@ -74354,18 +74368,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9bb8847f5bdaaa48b0d4f4a4f368ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeedForward: 2
-  movementSpeedBack: 2
-  jumpForce: 4
   animator: {fileID: 1608375592}
-  isGrounded: 1
+  movementSpeedForward: 1
+  movementSpeedBack: 1
   groundCheckCollider: {fileID: 861854188}
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackCount: 1
-  jumpCount: 0
-  maxJumpCount: 2
+  doubleJump: 0
+  isGrounded: 1
+  jumpForce: 4
 --- !u!58 &1608375596
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -74415,6 +74427,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
+--- !u!114 &1608375598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608375589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f117241fdddcd0b4e9ce0faec8b31021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ani: {fileID: 1608375592}
+  attackArea: {fileID: 756150302}
 --- !u!1 &1845697652
 GameObject:
   m_ObjectHideFlags: 0
@@ -74476,7 +74502,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.46350363, y: -0.41715324}
@@ -75111,7 +75137,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -75125,7 +75151,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!61 &2061102526
 BoxCollider2D:
   m_ObjectHideFlags: 0
