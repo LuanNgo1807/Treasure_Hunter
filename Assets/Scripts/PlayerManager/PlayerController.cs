@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 4.0f;
     //can be hitted
     private bool canTakeDamage = true;
+    public GameObject MovementEffect;
+    public GameObject JumpEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,10 +43,11 @@ public class PlayerController : MonoBehaviour
     {
         Fall();
         Jump();
+        Move();
     }
     private void FixedUpdate()
     {
-        Move();
+        
     }
     private void Move()
     {
@@ -54,10 +57,12 @@ public class PlayerController : MonoBehaviour
         if (moveX != 0)
         {
             isRunning = true;
+            MovementEffect.SetActive(true);
         }
         else
         {
             isRunning = false;
+            MovementEffect.SetActive(false);
         }
         animator.SetBool("isRunning", isRunning);
         //flip X
@@ -79,6 +84,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             isJumping = true;
+            JumpEffect.SetActive(true);
             if (isGrounded)
             {
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
@@ -88,12 +94,12 @@ public class PlayerController : MonoBehaviour
             {
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
                 doubleJump = false;
-                
             }
         }
         else
         {
             isJumping = false;
+            JumpEffect.SetActive(false);
         }
 
         animator.SetBool("isJumping", isJumping);
