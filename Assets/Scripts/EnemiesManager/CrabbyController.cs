@@ -7,10 +7,13 @@ public class CrabbyController : MonoBehaviour
 {
     bool collide = false;
     private Rigidbody2D rb;
+    public Animator ani;
+    private bool hitted;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        ani = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -40,5 +43,18 @@ public class CrabbyController : MonoBehaviour
             collide = false;
         }
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "player_attackarea")
+        {
+            hitted = true; 
+        }
+        else
+        {
+            hitted = false;
+        }
+        ani.SetBool("hit", hitted);
+        rb.AddForce(new Vector2(0.5f, 0));
     }
 }

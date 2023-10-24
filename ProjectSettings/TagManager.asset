@@ -8,6 +8,7 @@ TagManager:
   - right_limit
   - enemies
   - monster_hitbox
+  - player_attackarea
   layers:
   - Default
   - TransparentFX

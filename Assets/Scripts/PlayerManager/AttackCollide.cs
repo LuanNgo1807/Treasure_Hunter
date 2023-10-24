@@ -18,7 +18,7 @@ public class AttackCollide : MonoBehaviour
     //nếu AttackArea của nhân vật va chạm với quái thì quái mất máu
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Health enemiesHealth = collision.gameObject.GetComponent<Health>();
+        EnemiesHealth enemiesHealth = collision.gameObject.GetComponent<EnemiesHealth>();
         if (collision.gameObject.tag == "enemies")
         {
             enemiesHealth.TakeDamage(1);

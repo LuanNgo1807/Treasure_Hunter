@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class EnemiesHealth : MonoBehaviour
 {
-    /*public Animator dieAnimation;*/
-    public int maxHealth = 20;
+    public int maxHealth = 10;
     public int currentHealth;
     // Start is called before the first frame update
     void Start()
@@ -15,18 +14,18 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if(currentHealth <= 0) {
+        if (currentHealth <= 0)
+        {
             Die();
         }
     }
     void Die()
     {
-        /*Destroy(gameObject);*/
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

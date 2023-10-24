@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 756150305}
   m_Layer: 6
   m_Name: AttackArea
-  m_TagString: Untagged
+  m_TagString: player_attackarea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74230,8 +74230,8 @@ GameObject:
   - component: {fileID: 1608375594}
   - component: {fileID: 1608375595}
   - component: {fileID: 1608375596}
-  - component: {fileID: 1608375597}
   - component: {fileID: 1608375598}
+  - component: {fileID: 1608375599}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -74413,20 +74413,6 @@ CircleCollider2D:
   m_Offset: {x: 0.017966166, y: 0}
   serializedVersion: 2
   m_Radius: 0.11788051
---- !u!114 &1608375597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608375589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbe55009bca1bf4439b95d489bb3f2b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 0
 --- !u!114 &1608375598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74441,6 +74427,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ani: {fileID: 1608375592}
   attackArea: {fileID: 756150302}
+--- !u!114 &1608375599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608375589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe55009bca1bf4439b95d489bb3f2b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  currentHealth: 0
 --- !u!1 &1845697652
 GameObject:
   m_ObjectHideFlags: 0
@@ -75137,7 +75137,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -75209,6 +75209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579049edc21b1824bb93664f3a50ce39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ani: {fileID: 0}
 --- !u!114 &2061102528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75218,7 +75219,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2061102521}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbe55009bca1bf4439b95d489bb3f2b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 65321e268d3a6c44b9718a0718446903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10

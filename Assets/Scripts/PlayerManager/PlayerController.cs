@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded;
     private bool isJumping = false;
     public float jumpForce = 4.0f;
-    //health
-    private Health health;
+    //can be hitted
+    private bool canTakeDamage = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -126,22 +126,23 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //nếu quái va chạm với nhân vật thì nhân vật mất máu
-        /*Health playerHealth = GetComponent<Health>();
-        if (collision.gameObject.tag == "monster_hitbox")
+        Health playerHealth = GetComponent<Health>();
+        if (collision.gameObject.tag == "enemies" && canTakeDamage)
         {
             Debug.Log("Hitted");
             playerHealth.TakeDamage(1);
             animator.SetTrigger("hit");
-        }*/
+            StartCoroutine(DelayBetweenHitted());
+        }
+    }
+    IEnumerator DelayBetweenHitted()
+    {
+        canTakeDamage = false;
+        yield return new WaitForSeconds(2.0f);
+        canTakeDamage = true;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Health playerHealth = GetComponent<Health>();
-        if (collision.gameObject.tag == "monster_hitbox")
-        {
-            Debug.Log("Hitted");
-            playerHealth.TakeDamage(1);
-            animator.SetTrigger("hit");
-        }
+        
     }
 }
